@@ -17,9 +17,6 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby-version: ['3.0']
 
     steps:
     - uses: actions/checkout@v2
@@ -29,9 +26,10 @@ jobs:
     # uses: ruby/setup-ruby@v1
       uses: ruby/setup-ruby@473e4d8fe5dd94ee328fdfca9f8c9c7afc9dae5e
       with:
-        ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+    
     - name: Run tests
       run: bundle exec rspec
-    - name: Rubocop checks
+   
+    - name: Run Rubocop
       uses: gimenete/rubocop-action@1.0
