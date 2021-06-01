@@ -15,8 +15,16 @@ on:
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:11
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 123
+        ports:
+          - 5432:5432
 
     steps:
     - uses: actions/checkout@v2
@@ -28,8 +36,29 @@ jobs:
       with:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     
-    - name: Run tests
-      run: bundle exec rspec
-   
-    - name: Run Rubocop
-      uses: gimenete/rubocop-action@1.0
+    - name: Cache bundler
+      uses: actions/cache@v1
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-gems-
+    
+    - name: Bundle install
+      run: |
+        bundle config path vendor/bundle
+        bundle install --jobs 4 --retry 3
+    
+    - name: Setup test database
+      env:
+        RAILS_ENV: test
+      run: |
+        bin/rails db:create db:migrate
+    
+    - name: Run rspec
+      env:
+        RAILS_ENV: test
+      run: bundle exec rspec --tty
+    
+    - name: Run rubocop
+      run: bundle exec rubocop
