@@ -5,6 +5,7 @@ class CreateTasks < ActiveRecord::Migration[6.0]
     create_table :tasks do |t|
       t.string :description
       t.datetime :deadline
+      t.integer :priority, default: 0
       t.boolean :done, default: false
 
       t.timestamps
