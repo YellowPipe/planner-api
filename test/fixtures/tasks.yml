@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyText
+  deadline: 2021-05-29 16:11:26
+  done: false
+
+two:
+  name: MyText
+  deadline: 2021-05-29 16:11:26
+  done: false
