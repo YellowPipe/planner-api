@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
 class Task < ApplicationRecord
-  validates :description, presence: true
+  validates :description, :priority, presence: true
+  validates_inclusion_of :done, in: [true, false]
 end
