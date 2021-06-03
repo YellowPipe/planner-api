@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2021_05_29_131126) do
     t.datetime "deadline"
     t.integer "priority", default: 0
     t.boolean "done", default: false
+    t.date "chosen_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
